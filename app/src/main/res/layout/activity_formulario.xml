@@ -11,34 +11,40 @@
         <EditText
             android:hint="Nome"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/form_nome"/>
 
         <EditText
             android:hint="Endereco"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/form_endereco"/>
 
         <EditText
             android:hint="telefone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/form_telefone"/>
 
         <EditText
             android:hint="Site"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/form_site"/>
 
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
             android:max="10"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:id="@+id/form_nota"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Salvar"/>
+            android:text="Salvar"
+            android:id="@+id/form_btSalvar"/>
 
     </LinearLayout>
 </ScrollView>

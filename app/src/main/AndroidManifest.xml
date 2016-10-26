@@ -8,17 +8,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FormularioActivity"
-            android:label="Formulario">
+        <activity android:name=".ListaAlunosActivity"
+            android:label="ListaDeAlunos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListaAlunosActivity" android:label="ListaDeAlunos">
+        <activity android:name=".FormularioActivity"
+            android:label="Formulario">
 
         </activity>
+
     </application>
 
 </manifest>
