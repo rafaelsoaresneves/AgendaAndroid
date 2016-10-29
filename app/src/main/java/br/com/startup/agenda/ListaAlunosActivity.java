@@ -1,6 +1,7 @@
 package br.com.startup.agenda;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -71,13 +72,33 @@ public class ListaAlunosActivity extends AppCompatActivity {
     //Acao Do Menu de Contexto no caso o ListView
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem itemDeletar = menu.add("Deletar");
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
 
+        String site = aluno.getSite();
+        if(!site.startsWith("http://")) {
+            site = "http://" + site;
+        }
+
+        MenuItem itemSite = menu.add("Visitar Site");
+        Intent intentSite = new Intent(Intent.ACTION_VIEW);
+        intentSite.setData(Uri.parse(site));
+        itemSite.setIntent(intentSite);
+
+        MenuItem itemSms = menu.add("Enviar SMS");
+        Intent intentSms = new Intent(Intent.ACTION_VIEW);
+        intentSms.setData(Uri.parse("sms:"+aluno.getTelefone()));
+        itemSms.setIntent(intentSms);
+
+        MenuItem itemMapa = menu.add("Visualizar no mapa");
+        Intent intentMapa = new Intent(Intent.ACTION_VIEW);
+        intentMapa.setData(Uri.parse("geo:0,0?q="+aluno.getEndereco()));
+        itemMapa.setIntent(intentMapa);
+
+        MenuItem itemDeletar = menu.add("Deletar");
         itemDeletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
 
                 AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
                 dao.deletar(aluno);
