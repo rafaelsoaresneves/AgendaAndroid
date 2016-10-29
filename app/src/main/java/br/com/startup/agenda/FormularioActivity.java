@@ -22,7 +22,16 @@ public class FormularioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
+
         helper = new FormularioHelper(this);
+
+        Intent intent = getIntent();
+        Aluno aluno = (Aluno) intent.getSerializableExtra("aluno");
+
+        if(aluno != null) {
+            helper.preencheFormulario(aluno);
+        }
+
     }
 
     @Override
@@ -39,11 +48,16 @@ public class FormularioActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_form_ok:
                 Aluno aluno = helper.pegaAluno();
-                AlunoDAO alunoDAO = new AlunoDAO(this);
-                alunoDAO.salvar(aluno);
-                alunoDAO.close();
+                AlunoDAO dao = new AlunoDAO(this);
 
-                Toast.makeText(FormularioActivity.this, "Salvando " + aluno.getNome(), Toast.LENGTH_SHORT).show();
+                if(aluno.getId() != null) {
+                    dao.alterar(aluno);
+                }else {
+                    dao.salvar(aluno);
+                }
+                dao.close();
+
+                //Toast.makeText(FormularioActivity.this, "Salvando " + aluno.getNome(), Toast.LENGTH_SHORT).show();
 
                 finish();
                 break;
