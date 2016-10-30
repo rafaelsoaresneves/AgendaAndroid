@@ -1,7 +1,10 @@
 package br.com.startup.agenda;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -34,7 +37,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int posicao, long id) {
                 Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(posicao);
-                Intent intentToForm = new Intent( ListaAlunosActivity.this, FormularioActivity.class);
+                Intent intentToForm = new Intent(ListaAlunosActivity.this, FormularioActivity.class);
                 intentToForm.putExtra("aluno", aluno);
                 startActivity(intentToForm);
             }
@@ -76,9 +79,10 @@ public class ListaAlunosActivity extends AppCompatActivity {
         final Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
 
         String site = aluno.getSite();
-        if(!site.startsWith("http://")) {
+        if (!site.startsWith("http://")) {
             site = "http://" + site;
         }
+
 
         MenuItem itemSite = menu.add("Visitar Site");
         Intent intentSite = new Intent(Intent.ACTION_VIEW);
@@ -87,12 +91,12 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         MenuItem itemSms = menu.add("Enviar SMS");
         Intent intentSms = new Intent(Intent.ACTION_VIEW);
-        intentSms.setData(Uri.parse("sms:"+aluno.getTelefone()));
+        intentSms.setData(Uri.parse("sms:" + aluno.getTelefone()));
         itemSms.setIntent(intentSms);
 
         MenuItem itemMapa = menu.add("Visualizar no mapa");
         Intent intentMapa = new Intent(Intent.ACTION_VIEW);
-        intentMapa.setData(Uri.parse("geo:0,0?q="+aluno.getEndereco()));
+        intentMapa.setData(Uri.parse("geo:0,0?q=" + aluno.getEndereco()));
         itemMapa.setIntent(intentMapa);
 
         MenuItem itemDeletar = menu.add("Deletar");
@@ -105,11 +109,30 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 dao.close();
 
                 carregarLista();
-                Toast.makeText(ListaAlunosActivity.this, "Deletando "+aluno.getNome() ,Toast.LENGTH_LONG).show();
+                Toast.makeText(ListaAlunosActivity.this, "Deletando " + aluno.getNome(), Toast.LENGTH_LONG).show();
 
                 return false;
             }
         });
+
+        MenuItem itemTelefone = menu.add("Ligar");
+        itemTelefone.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                if(ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(ListaAlunosActivity.this,
+                            new String[]{Manifest.permission.CALL_PHONE}, 123);
+                } else {
+                    Intent intentTelefone = new Intent(Intent.ACTION_CALL);
+                    intentTelefone.setData(Uri.parse("tel:" + aluno.getTelefone()));
+                    startActivity(intentTelefone);
+                }
+                return false;
+            }
+        });
+
+
 
     }
 
