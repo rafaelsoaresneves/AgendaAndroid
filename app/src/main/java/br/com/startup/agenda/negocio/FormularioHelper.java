@@ -1,8 +1,10 @@
-package br.com.startup.agenda;
+package br.com.startup.agenda.negocio;
 
 import android.widget.EditText;
 import android.widget.RatingBar;
 
+import br.com.startup.agenda.FormularioActivity;
+import br.com.startup.agenda.R;
 import br.com.startup.agenda.modelo.Aluno;
 
 /**
