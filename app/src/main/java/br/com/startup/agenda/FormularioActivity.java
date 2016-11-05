@@ -59,15 +59,11 @@ public class FormularioActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Abrir a foto que foi tirada
+        //Chama esse metodo depois que a tira a foto
 
         if(resultCode == Activity.RESULT_OK) {
             if(requestCode == CODIGO_CAMERA) {
-                ImageView foto = (ImageView) findViewById(R.id.form_foto);
-                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-                Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
-                foto.setImageBitmap(bitmapReduzido);
-                foto.setScaleType(ImageView.ScaleType.FIT_XY);
+                helper.carregarImagem(caminhoFoto);
             }
         }
     }
